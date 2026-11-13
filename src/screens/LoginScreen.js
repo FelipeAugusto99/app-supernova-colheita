@@ -4,6 +4,7 @@ import { Image, Pressable, StyleSheet, View } from 'react-native';
 import { AvisoErro, Botao, CampoTexto, Tela, Texto } from '../components';
 import { useAuth } from '../context/AuthContext';
 import { useTema } from '../context/TemaContext';
+import { useFormulario } from '../hooks/useFormulario';
 import { mensagemDeErro } from '../utils/erros';
 import { validarLogin } from '../utils/formularioAuth';
 
@@ -11,12 +12,9 @@ export default function LoginScreen({ navigation }) {
   const { entrar } = useAuth();
   const { cores } = useTema();
 
-  const [form, setForm] = useState({ email: '', senha: '' });
-  const [erros, setErros] = useState({});
+  const { valores: form, erros, setErros, alterar } = useFormulario({ email: '', senha: '' });
   const [erroGeral, setErroGeral] = useState('');
   const [enviando, setEnviando] = useState(false);
-
-  const alterar = (campo) => (valor) => setForm((atual) => ({ ...atual, [campo]: valor }));
 
   async function enviar() {
     const errosValidacao = validarLogin(form);

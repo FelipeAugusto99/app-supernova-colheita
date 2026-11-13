@@ -1,8 +1,13 @@
+export { default as Atalho } from './Atalho';
 export { default as Botao } from './Botao';
 export { default as CampoTexto } from './CampoTexto';
 export { default as Card } from './Card';
+export { default as CartaoOferta } from './CartaoOferta';
 export { AvisoErro, Carregando, ListaVazia, MensagemErro } from './Estados';
+export { default as Etiqueta } from './Etiqueta';
 export { default as Icone } from './Icone';
+export { default as LinhaInfo } from './LinhaInfo';
+export { default as ListaPaginada } from './ListaPaginada';
 export { default as Opcoes } from './Opcoes';
 export { default as Tela } from './Tela';
 export { default as Texto } from './Texto';

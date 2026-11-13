@@ -8,6 +8,10 @@ import { useTema } from '../context/TemaContext';
 import CadastroScreen from '../screens/CadastroScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
+import MinhasOfertasScreen from '../screens/MinhasOfertasScreen';
+import OfertaDetalheScreen from '../screens/OfertaDetalheScreen';
+import OfertaFormScreen from '../screens/OfertaFormScreen';
+import OfertasScreen from '../screens/OfertasScreen';
 import { criarTemaNavegacao, opcoesCabecalho } from './temaNavegacao';
 
 const Stack = createNativeStackNavigator();
@@ -29,6 +33,26 @@ function RotasAutenticadas() {
   return (
     <Stack.Navigator screenOptions={opcoesCabecalho(cores)}>
       <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Supernova Colheita' }} />
+      <Stack.Screen
+        name="Ofertas"
+        component={OfertasScreen}
+        options={{ title: 'Ofertas da região' }}
+      />
+      <Stack.Screen
+        name="MinhasOfertas"
+        component={MinhasOfertasScreen}
+        options={{ title: 'Minhas ofertas' }}
+      />
+      <Stack.Screen
+        name="OfertaDetalhe"
+        component={OfertaDetalheScreen}
+        options={{ title: 'Detalhes da oferta' }}
+      />
+      <Stack.Screen
+        name="OfertaForm"
+        component={OfertaFormScreen}
+        options={({ route }) => ({ title: route.params?.oferta ? 'Editar oferta' : 'Nova oferta' })}
+      />
     </Stack.Navigator>
   );
 }

@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { AvisoErro, Botao, CampoTexto, Opcoes, Tela, Texto } from '../components';
 import { useAuth } from '../context/AuthContext';
+import { useFormulario } from '../hooks/useFormulario';
 import { errosDeCampo, mensagemDeErro } from '../utils/erros';
 import { montarCadastro, validarCadastro } from '../utils/formularioAuth';
 import { TIPOS_COMPRADOR } from '../utils/perfis';
@@ -33,13 +34,11 @@ export default function CadastroScreen() {
   const { cadastrar } = useAuth();
 
   const [tipoConta, setTipoConta] = useState('PRODUTOR');
-  const [form, setForm] = useState(FORM_INICIAL);
-  const [erros, setErros] = useState({});
+  const { valores: form, erros, setErros, alterar } = useFormulario(FORM_INICIAL);
   const [erroGeral, setErroGeral] = useState('');
   const [enviando, setEnviando] = useState(false);
 
   const produtor = tipoConta === 'PRODUTOR';
-  const alterar = (campo) => (valor) => setForm((atual) => ({ ...atual, [campo]: valor }));
 
   async function enviar() {
     const errosValidacao = validarCadastro(tipoConta, form);
