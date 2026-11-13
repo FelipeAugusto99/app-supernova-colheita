@@ -1,0 +1,52 @@
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { StatusBar } from 'expo-status-bar';
+
+import { Carregando } from '../components';
+import { useAuth } from '../context/AuthContext';
+import { useTema } from '../context/TemaContext';
+import CadastroScreen from '../screens/CadastroScreen';
+import HomeScreen from '../screens/HomeScreen';
+import LoginScreen from '../screens/LoginScreen';
+import { criarTemaNavegacao, opcoesCabecalho } from './temaNavegacao';
+
+const Stack = createNativeStackNavigator();
+
+// Telas que nao exigem login
+function RotasPublicas() {
+  const { cores } = useTema();
+  return (
+    <Stack.Navigator screenOptions={opcoesCabecalho(cores)}>
+      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ title: 'Criar conta' }} />
+    </Stack.Navigator>
+  );
+}
+
+// Telas protegidas: so existem na navegacao quando ha usuario logado
+function RotasAutenticadas() {
+  const { cores } = useTema();
+  return (
+    <Stack.Navigator screenOptions={opcoesCabecalho(cores)}>
+      <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Supernova Colheita' }} />
+    </Stack.Navigator>
+  );
+}
+
+export default function AppNavigator() {
+  const { usuario, carregandoSessao } = useAuth();
+  const { cores, escuro } = useTema();
+
+  return (
+    <NavigationContainer theme={criarTemaNavegacao(cores, escuro)}>
+      <StatusBar style="light" />
+      {carregandoSessao ? (
+        <Carregando mensagem="Abrindo o app..." />
+      ) : usuario ? (
+        <RotasAutenticadas />
+      ) : (
+        <RotasPublicas />
+      )}
+    </NavigationContainer>
+  );
+}
