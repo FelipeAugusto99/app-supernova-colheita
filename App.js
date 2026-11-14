@@ -6,6 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { queryClient } from './src/config/queryClient';
 import { AuthProvider } from './src/context/AuthContext';
+import { CarrinhoProvider } from './src/context/CarrinhoContext';
 import { TemaProvider } from './src/context/TemaContext';
 import AppNavigator from './src/navigation/AppNavigator';
 import { arquivosFontes } from './src/theme/fontes';
@@ -30,7 +31,9 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <TemaProvider>
           <AuthProvider>
-            <AppNavigator />
+            <CarrinhoProvider>
+              <AppNavigator />
+            </CarrinhoProvider>
           </AuthProvider>
         </TemaProvider>
       </QueryClientProvider>

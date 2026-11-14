@@ -41,3 +41,11 @@ export function diasAteVencer(iso) {
   const validade = new Date(`${iso.slice(0, 10)}T00:00:00`);
   return Math.round((validade - hoje) / (24 * 60 * 60 * 1000));
 }
+
+// "2026-11-13T20:39:12" -> "13/11/2026 às 20:39"
+export function formatarDataHora(iso) {
+  if (!iso) {
+    return '-';
+  }
+  return `${formatarData(iso)} às ${iso.slice(11, 16)}`;
+}

@@ -9,14 +9,23 @@ import {
   Etiqueta,
   LinhaInfo,
   MensagemErro,
+  SeletorQuantidade,
   Tela,
   Texto,
 } from '../components';
 import { useAuth } from '../context/AuthContext';
+import { useCarrinho } from '../context/CarrinhoContext';
+import { useTema } from '../context/TemaContext';
 import { useCancelarOferta, useOferta } from '../hooks/useOfertas';
 import { confirmar } from '../utils/confirmar';
 import { mensagemDeErro } from '../utils/erros';
-import { formatarData, formatarQuantidade, precoPorUnidade } from '../utils/formatadores';
+import {
+  formatarData,
+  formatarMoeda,
+  formatarQuantidade,
+  nomesUnidades,
+  precoPorUnidade,
+} from '../utils/formatadores';
 import { STATUS_OFERTA } from '../utils/statusOferta';
 
 export default function OfertaDetalheScreen({ route, navigation }) {
@@ -25,6 +34,10 @@ export default function OfertaDetalheScreen({ route, navigation }) {
   const { data: oferta, isLoading, isError, error, refetch } = useOferta(id);
   const cancelamento = useCancelarOferta();
   const [erroAcao, setErroAcao] = useState('');
+  const { adicionar, itens } = useCarrinho();
+  const { cores } = useTema();
+  const [quantidade, setQuantidade] = useState(1);
+  const [adicionado, setAdicionado] = useState(false);
 
   if (isLoading) {
     return <Carregando />;
@@ -36,6 +49,13 @@ export default function OfertaDetalheScreen({ route, navigation }) {
   const status = STATUS_OFERTA[oferta.status];
   const dono = usuario.produtorId === oferta.produtorId || usuario.role === 'GESTOR';
   const podeAlterar = dono && oferta.status !== 'CANCELADA';
+  const podeComprar = usuario.role === 'COMPRADOR' && oferta.status === 'DISPONIVEL';
+  const noCarrinho = itens.find((item) => item.oferta.id === oferta.id);
+
+  function adicionarAoPedido() {
+    adicionar(oferta, quantidade);
+    setAdicionado(true);
+  }
 
   async function cancelar() {
     const ok = await confirmar({
@@ -86,6 +106,42 @@ export default function OfertaDetalheScreen({ route, navigation }) {
         />
       </Card>
 
+      {podeComprar ? (
+        <Card>
+          <Texto variante="destaque" style={estilos.tituloCompra}>
+            Quantidade ({nomesUnidades[oferta.unidade]})
+          </Texto>
+          <View style={estilos.linhaCompra}>
+            <SeletorQuantidade
+              valor={quantidade}
+              maximo={oferta.qtdDisponivel}
+              aoMudar={(valor) => {
+                setQuantidade(valor);
+                setAdicionado(false);
+              }}
+            />
+            <Texto variante="destaque" cor={cores.primaria}>
+              {formatarMoeda(quantidade * oferta.precoUnitario)}
+            </Texto>
+          </View>
+          <Botao
+            titulo="Adicionar ao pedido"
+            icone="cart-plus"
+            onPress={adicionarAoPedido}
+            desabilitado={quantidade <= 0}
+          />
+          {adicionado || noCarrinho ? (
+            <Botao
+              titulo={`Ver meu pedido (${formatarQuantidade(noCarrinho?.quantidade ?? quantidade, oferta.unidade)} desta oferta)`}
+              icone="cart-outline"
+              variante="secundario"
+              onPress={() => navigation.navigate('Carrinho')}
+              style={estilos.verPedido}
+            />
+          ) : null}
+        </Card>
+      ) : null}
+
       {podeAlterar ? (
         <View style={estilos.acoes}>
           <Botao
@@ -109,4 +165,12 @@ export default function OfertaDetalheScreen({ route, navigation }) {
 const estilos = StyleSheet.create({
   cabecalho: { gap: 8, marginBottom: 16 },
   acoes: { gap: 12, marginTop: 8 },
+  tituloCompra: { marginBottom: 8 },
+  linhaCompra: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 12,
+  },
+  verPedido: { marginTop: 10 },
 });

@@ -6,12 +6,15 @@ import { Carregando } from '../components';
 import { useAuth } from '../context/AuthContext';
 import { useTema } from '../context/TemaContext';
 import CadastroScreen from '../screens/CadastroScreen';
+import CarrinhoScreen from '../screens/CarrinhoScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import MinhasOfertasScreen from '../screens/MinhasOfertasScreen';
 import OfertaDetalheScreen from '../screens/OfertaDetalheScreen';
 import OfertaFormScreen from '../screens/OfertaFormScreen';
 import OfertasScreen from '../screens/OfertasScreen';
+import PedidoDetalheScreen from '../screens/PedidoDetalheScreen';
+import PedidosScreen from '../screens/PedidosScreen';
 import { criarTemaNavegacao, opcoesCabecalho } from './temaNavegacao';
 
 const Stack = createNativeStackNavigator();
@@ -28,8 +31,15 @@ function RotasPublicas() {
 }
 
 // Telas protegidas: so existem na navegacao quando ha usuario logado
+const titulosPedidos = {
+  COMPRADOR: 'Meus pedidos',
+  PRODUTOR: 'Pedidos recebidos',
+  GESTOR: 'Pedidos',
+};
+
 function RotasAutenticadas() {
   const { cores } = useTema();
+  const { usuario } = useAuth();
   return (
     <Stack.Navigator screenOptions={opcoesCabecalho(cores)}>
       <Stack.Screen name="Home" component={HomeScreen} options={{ title: 'Supernova Colheita' }} />
@@ -52,6 +62,17 @@ function RotasAutenticadas() {
         name="OfertaForm"
         component={OfertaFormScreen}
         options={({ route }) => ({ title: route.params?.oferta ? 'Editar oferta' : 'Nova oferta' })}
+      />
+      <Stack.Screen name="Carrinho" component={CarrinhoScreen} options={{ title: 'Meu pedido' }} />
+      <Stack.Screen
+        name="Pedidos"
+        component={PedidosScreen}
+        options={{ title: titulosPedidos[usuario.role] }}
+      />
+      <Stack.Screen
+        name="PedidoDetalhe"
+        component={PedidoDetalheScreen}
+        options={{ title: 'Detalhes do pedido' }}
       />
     </Stack.Navigator>
   );

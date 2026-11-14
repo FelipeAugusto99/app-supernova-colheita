@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native';
 
 import { Atalho, Botao, Tela, Texto } from '../components';
 import { useAuth } from '../context/AuthContext';
+import { useCarrinho } from '../context/CarrinhoContext';
 import { nomesPerfis } from '../utils/perfis';
 
 // Pessoas sao chamadas pelo primeiro nome; instituicoes pelo nome completo
@@ -10,7 +11,7 @@ function saudacao(usuario) {
 }
 
 // Atalhos que cada perfil ve na tela inicial
-function atalhosDoPerfil(role) {
+function atalhosDoPerfil(role, quantidadeNoCarrinho) {
   const ofertas = {
     tela: 'Ofertas',
     icone: 'basket-outline',
@@ -26,14 +27,49 @@ function atalhosDoPerfil(role) {
         titulo: 'Minhas ofertas',
         descricao: 'Publique e atualize o que você tem para vender',
       },
+      {
+        tela: 'Pedidos',
+        icone: 'clipboard-list-outline',
+        titulo: 'Pedidos recebidos',
+        descricao: 'Confirme e registre as entregas',
+      },
       ofertas,
     ];
   }
-  return [ofertas];
+  if (role === 'COMPRADOR') {
+    return [
+      ofertas,
+      {
+        tela: 'Carrinho',
+        icone: 'cart-outline',
+        titulo: 'Meu pedido',
+        descricao:
+          quantidadeNoCarrinho > 0
+            ? `${quantidadeNoCarrinho} item(ns) aguardando finalização`
+            : 'Nenhum item escolhido ainda',
+      },
+      {
+        tela: 'Pedidos',
+        icone: 'clipboard-list-outline',
+        titulo: 'Meus pedidos',
+        descricao: 'Acompanhe e cancele seus pedidos',
+      },
+    ];
+  }
+  return [
+    ofertas,
+    {
+      tela: 'Pedidos',
+      icone: 'clipboard-list-outline',
+      titulo: 'Pedidos',
+      descricao: 'Todos os pedidos da plataforma',
+    },
+  ];
 }
 
 export default function HomeScreen({ navigation }) {
   const { usuario, sair } = useAuth();
+  const { quantidadeItens } = useCarrinho();
 
   return (
     <Tela>
@@ -42,7 +78,7 @@ export default function HomeScreen({ navigation }) {
         Você entrou como {nomesPerfis[usuario.role]}.
       </Texto>
 
-      {atalhosDoPerfil(usuario.role).map((atalho) => (
+      {atalhosDoPerfil(usuario.role, quantidadeItens).map((atalho) => (
         <Atalho
           key={atalho.tela}
           icone={atalho.icone}
