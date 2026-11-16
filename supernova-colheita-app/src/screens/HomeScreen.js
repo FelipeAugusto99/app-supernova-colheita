@@ -56,6 +56,12 @@ function atalhosDoPerfil(role, quantidadeNoCarrinho, ehEscola) {
         titulo: 'Meus pedidos',
         descricao: 'Acompanhe e cancele seus pedidos',
       },
+      {
+        tela: 'Cardapios',
+        icone: 'chef-hat',
+        titulo: 'Cardápio inteligente',
+        descricao: 'A IA monta o cardápio com o que os produtores têm',
+      },
       ...(ehEscola
         ? [
             {

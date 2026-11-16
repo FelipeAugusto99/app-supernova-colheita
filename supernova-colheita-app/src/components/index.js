@@ -3,6 +3,7 @@ export { default as BarraMeta } from './BarraMeta';
 export { default as Botao } from './Botao';
 export { default as CampoTexto } from './CampoTexto';
 export { default as Card } from './Card';
+export { default as CartaoCardapio, STATUS_CARDAPIO } from './CartaoCardapio';
 export { default as CartaoMeta } from './CartaoMeta';
 export { default as CartaoNotificacao } from './CartaoNotificacao';
 export { default as CartaoOferta } from './CartaoOferta';

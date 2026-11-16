@@ -6,6 +6,9 @@ import { Carregando } from '../components';
 import { useAuth } from '../context/AuthContext';
 import { useTema } from '../context/TemaContext';
 import CadastroScreen from '../screens/CadastroScreen';
+import CardapioDetalheScreen from '../screens/CardapioDetalheScreen';
+import CardapioFormScreen from '../screens/CardapioFormScreen';
+import CardapiosScreen from '../screens/CardapiosScreen';
 import CarrinhoScreen from '../screens/CarrinhoScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
@@ -75,6 +78,21 @@ function RotasAutenticadas() {
         name="PedidoDetalhe"
         component={PedidoDetalheScreen}
         options={{ title: 'Detalhes do pedido' }}
+      />
+      <Stack.Screen
+        name="Cardapios"
+        component={CardapiosScreen}
+        options={{ title: 'Cardápio inteligente' }}
+      />
+      <Stack.Screen
+        name="CardapioForm"
+        component={CardapioFormScreen}
+        options={{ title: 'Novo cardápio' }}
+      />
+      <Stack.Screen
+        name="CardapioDetalhe"
+        component={CardapioDetalheScreen}
+        options={{ title: 'Cardápio' }}
       />
       <Stack.Screen
         name="Notificacoes"
