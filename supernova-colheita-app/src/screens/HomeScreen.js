@@ -109,6 +109,12 @@ export default function HomeScreen({ navigation }) {
           ? `${naoLidas} ${naoLidas === 1 ? 'aviso novo' : 'avisos novos'} sobre pedidos`
           : 'Avisos sobre os seus pedidos',
     },
+    {
+      tela: 'Sobre',
+      icone: 'information-outline',
+      titulo: 'Sobre o App',
+      descricao: 'Versão, commit de referência e equipe',
+    },
   ];
 
   return (

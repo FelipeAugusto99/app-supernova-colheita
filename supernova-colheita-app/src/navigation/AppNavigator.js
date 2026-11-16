@@ -20,6 +20,7 @@ import OfertaFormScreen from '../screens/OfertaFormScreen';
 import OfertasScreen from '../screens/OfertasScreen';
 import PedidoDetalheScreen from '../screens/PedidoDetalheScreen';
 import PedidosScreen from '../screens/PedidosScreen';
+import SobreScreen from '../screens/SobreScreen';
 import { criarTemaNavegacao, opcoesCabecalho } from './temaNavegacao';
 
 const Stack = createNativeStackNavigator();
@@ -31,6 +32,7 @@ function RotasPublicas() {
     <Stack.Navigator screenOptions={opcoesCabecalho(cores)}>
       <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Cadastro" component={CadastroScreen} options={{ title: 'Criar conta' }} />
+      <Stack.Screen name="Sobre" component={SobreScreen} options={{ title: 'Sobre o App' }} />
     </Stack.Navigator>
   );
 }
@@ -99,6 +101,7 @@ function RotasAutenticadas() {
         component={NotificacoesScreen}
         options={{ title: 'Notificações' }}
       />
+      <Stack.Screen name="Sobre" component={SobreScreen} options={{ title: 'Sobre o App' }} />
       <Stack.Screen
         name="MetaPnae"
         component={MetaPnaeScreen}

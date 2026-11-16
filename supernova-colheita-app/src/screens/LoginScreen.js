@@ -84,6 +84,16 @@ export default function LoginScreen({ navigation }) {
           </Texto>
         </Texto>
       </Pressable>
+
+      <Pressable
+        accessibilityRole="link"
+        onPress={() => navigation.navigate('Sobre')}
+        style={estilos.linkSobre}
+      >
+        <Texto variante="legenda" cor={cores.textoTerciario}>
+          Sobre o App
+        </Texto>
+      </Pressable>
     </Tela>
   );
 }
@@ -94,5 +104,6 @@ const estilos = StyleSheet.create({
   logo: { width: 96, height: 96, marginBottom: 8 },
   centro: { textAlign: 'center' },
   link: { alignItems: 'center', marginTop: 20, padding: 8 },
+  linkSobre: { alignItems: 'center', marginTop: 4, padding: 8 },
   negrito: { fontFamily: 'Poppins_600SemiBold' },
 });
