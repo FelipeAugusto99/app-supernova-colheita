@@ -49,3 +49,8 @@ export function formatarDataHora(iso) {
   }
   return `${formatarData(iso)} às ${iso.slice(11, 16)}`;
 }
+
+const formatadorPercentual = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 1 });
+
+// 30.16 -> "30,2%"
+export const formatarPercentual = (valor) => `${formatadorPercentual.format(Number(valor ?? 0))}%`;

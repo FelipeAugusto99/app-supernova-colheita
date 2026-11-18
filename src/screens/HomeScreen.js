@@ -3,6 +3,8 @@ import { StyleSheet } from 'react-native';
 import { Atalho, Botao, Tela, Texto } from '../components';
 import { useAuth } from '../context/AuthContext';
 import { useCarrinho } from '../context/CarrinhoContext';
+import { useComprador } from '../hooks/useComprador';
+import { useNotificacoes } from '../hooks/useNotificacoes';
 import { nomesPerfis } from '../utils/perfis';
 
 // Pessoas sao chamadas pelo primeiro nome; instituicoes pelo nome completo
@@ -11,7 +13,7 @@ function saudacao(usuario) {
 }
 
 // Atalhos que cada perfil ve na tela inicial
-function atalhosDoPerfil(role, quantidadeNoCarrinho) {
+function atalhosDoPerfil(role, quantidadeNoCarrinho, ehEscola) {
   const ofertas = {
     tela: 'Ofertas',
     icone: 'basket-outline',
@@ -32,6 +34,18 @@ function atalhosDoPerfil(role, quantidadeNoCarrinho) {
         icone: 'clipboard-list-outline',
         titulo: 'Pedidos recebidos',
         descricao: 'Confirme e registre as entregas',
+      },
+      {
+        tela: 'Oportunidades',
+        icone: 'bullhorn-outline',
+        titulo: 'Chamadas públicas',
+        descricao: 'Escolas e prefeituras que querem comprar de você',
+      },
+      {
+        tela: 'Clima',
+        icone: 'weather-partly-cloudy',
+        titulo: 'Clima da lavoura',
+        descricao: 'Temperatura, chuva e dicas para a colheita',
       },
       ofertas,
     ];
@@ -54,6 +68,28 @@ function atalhosDoPerfil(role, quantidadeNoCarrinho) {
         titulo: 'Meus pedidos',
         descricao: 'Acompanhe e cancele seus pedidos',
       },
+      {
+        tela: 'Cardapios',
+        icone: 'chef-hat',
+        titulo: 'Cardápio inteligente',
+        descricao: 'A IA monta o cardápio com o que os produtores têm',
+      },
+      {
+        tela: 'Oportunidades',
+        icone: 'bullhorn-outline',
+        titulo: 'Chamadas públicas',
+        descricao: 'Divulgue o que a sua instituição quer comprar',
+      },
+      ...(ehEscola
+        ? [
+            {
+              tela: 'MetaPnae',
+              icone: 'chart-donut',
+              titulo: 'Meta PNAE',
+              descricao: 'Quanto da verba já foi para a agricultura familiar',
+            },
+          ]
+        : []),
     ];
   }
   return [
@@ -64,12 +100,46 @@ function atalhosDoPerfil(role, quantidadeNoCarrinho) {
       titulo: 'Pedidos',
       descricao: 'Todos os pedidos da plataforma',
     },
+    {
+      tela: 'MetaPnae',
+      icone: 'chart-donut',
+      titulo: 'Meta PNAE das escolas',
+      descricao: 'Acompanhe os 30% da agricultura familiar no município',
+    },
+    {
+      tela: 'Oportunidades',
+      icone: 'bullhorn-outline',
+      titulo: 'Chamadas públicas',
+      descricao: 'Publique as chamadas da prefeitura',
+    },
   ];
 }
 
 export default function HomeScreen({ navigation }) {
   const { usuario, sair } = useAuth();
   const { quantidadeItens } = useCarrinho();
+  const { naoLidas } = useNotificacoes();
+  const { data: comprador } = useComprador(usuario.compradorId);
+  const ehEscola = comprador?.tipo === 'ESCOLA';
+
+  const atalhos = [
+    ...atalhosDoPerfil(usuario.role, quantidadeItens, ehEscola),
+    {
+      tela: 'Notificacoes',
+      icone: naoLidas > 0 ? 'bell-badge-outline' : 'bell-outline',
+      titulo: 'Notificações',
+      descricao:
+        naoLidas > 0
+          ? `${naoLidas} ${naoLidas === 1 ? 'aviso novo' : 'avisos novos'} sobre pedidos`
+          : 'Avisos sobre os seus pedidos',
+    },
+    {
+      tela: 'Sobre',
+      icone: 'information-outline',
+      titulo: 'Sobre o App',
+      descricao: 'Versão, commit de referência e equipe',
+    },
+  ];
 
   return (
     <Tela>
@@ -78,7 +148,7 @@ export default function HomeScreen({ navigation }) {
         Você entrou como {nomesPerfis[usuario.role]}.
       </Texto>
 
-      {atalhosDoPerfil(usuario.role, quantidadeItens).map((atalho) => (
+      {atalhos.map((atalho) => (
         <Atalho
           key={atalho.tela}
           icone={atalho.icone}

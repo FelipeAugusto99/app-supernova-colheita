@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 
 import { useTema } from '../context/TemaContext';
 import { raios } from '../theme/espacos';
@@ -7,7 +7,14 @@ import { fontes } from '../theme/fontes';
 import Icone from './Icone';
 import Texto from './Texto';
 
-export default function CampoTexto({ rotulo, erro, senha = false, style, ...props }) {
+export default function CampoTexto({
+  rotulo,
+  erro,
+  senha = false,
+  multiline = false,
+  style,
+  ...props
+}) {
   const { cores } = useTema();
   const [focado, setFocado] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -22,14 +29,21 @@ export default function CampoTexto({ rotulo, erro, senha = false, style, ...prop
         </Texto>
       ) : null}
 
-      <View style={[estilos.caixa, { borderColor: corBorda, backgroundColor: cores.superficie }]}>
+      <View
+        style={[
+          estilos.caixa,
+          multiline && estilos.caixaMultilinha,
+          { borderColor: corBorda, backgroundColor: cores.superficie },
+        ]}
+      >
         <TextInput
           accessibilityLabel={rotulo}
           placeholderTextColor={cores.textoTerciario}
           secureTextEntry={senha && !mostrarSenha}
           onFocus={() => setFocado(true)}
           onBlur={() => setFocado(false)}
-          style={[estilos.entrada, { color: cores.texto }]}
+          multiline={multiline}
+          style={[estilos.entrada, multiline && estilos.entradaMultilinha, { color: cores.texto }]}
           {...props}
         />
         {senha ? (
@@ -71,6 +85,13 @@ const estilos = StyleSheet.create({
     minHeight: 48,
     fontFamily: fontes.regular,
     fontSize: 15,
+    // no navegador o campo ganha um contorno proprio ao focar; a borda da caixa ja indica o foco
+    ...(Platform.OS === 'web' ? { outlineStyle: 'none' } : null),
+  },
+  caixaMultilinha: { alignItems: 'stretch', paddingVertical: 10 },
+  entradaMultilinha: {
+    minHeight: 96,
+    textAlignVertical: 'top',
   },
   erro: { marginTop: 4 },
 });
