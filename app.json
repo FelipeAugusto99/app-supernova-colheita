@@ -24,6 +24,16 @@
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-status-bar", "expo-font", "expo-splash-screen"]
+    "plugins": [
+      "expo-status-bar",
+      "expo-font",
+      "expo-splash-screen"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "ec82870c-ba07-4aa5-96bb-5d93ad0392a8"
+      }
+    },
+    "owner": "felipeaugusto99"
   }
 }
