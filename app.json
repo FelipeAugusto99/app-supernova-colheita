@@ -34,6 +34,14 @@
           "locationWhenInUsePermission": "O Supernova Colheita usa a sua localização para mostrar o clima da sua lavoura."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "commitHash": "9e2af42",
+      "dataBuild": "2026-11-18",
+      "eas": {
+        "projectId": "ec82870c-ba07-4aa5-96bb-5d93ad0392a8"
+      }
+    },
+    "owner": "felipeaugusto99"
   }
 }
