@@ -7,6 +7,7 @@ export { default as CartaoCardapio, STATUS_CARDAPIO } from './CartaoCardapio';
 export { default as CartaoMeta } from './CartaoMeta';
 export { default as CartaoNotificacao } from './CartaoNotificacao';
 export { default as CartaoOferta } from './CartaoOferta';
+export { default as CartaoOportunidade, situacaoDoPrazo } from './CartaoOportunidade';
 export { default as CartaoPedido } from './CartaoPedido';
 export { AvisoErro, Carregando, ListaVazia, MensagemErro } from './Estados';
 export { default as Etiqueta } from './Etiqueta';

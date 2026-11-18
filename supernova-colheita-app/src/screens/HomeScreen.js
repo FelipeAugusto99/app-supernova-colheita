@@ -35,6 +35,18 @@ function atalhosDoPerfil(role, quantidadeNoCarrinho, ehEscola) {
         titulo: 'Pedidos recebidos',
         descricao: 'Confirme e registre as entregas',
       },
+      {
+        tela: 'Oportunidades',
+        icone: 'bullhorn-outline',
+        titulo: 'Chamadas públicas',
+        descricao: 'Escolas e prefeituras que querem comprar de você',
+      },
+      {
+        tela: 'Clima',
+        icone: 'weather-partly-cloudy',
+        titulo: 'Clima da lavoura',
+        descricao: 'Temperatura, chuva e dicas para a colheita',
+      },
       ofertas,
     ];
   }
@@ -62,6 +74,12 @@ function atalhosDoPerfil(role, quantidadeNoCarrinho, ehEscola) {
         titulo: 'Cardápio inteligente',
         descricao: 'A IA monta o cardápio com o que os produtores têm',
       },
+      {
+        tela: 'Oportunidades',
+        icone: 'bullhorn-outline',
+        titulo: 'Chamadas públicas',
+        descricao: 'Divulgue o que a sua instituição quer comprar',
+      },
       ...(ehEscola
         ? [
             {
@@ -87,6 +105,12 @@ function atalhosDoPerfil(role, quantidadeNoCarrinho, ehEscola) {
       icone: 'chart-donut',
       titulo: 'Meta PNAE das escolas',
       descricao: 'Acompanhe os 30% da agricultura familiar no município',
+    },
+    {
+      tela: 'Oportunidades',
+      icone: 'bullhorn-outline',
+      titulo: 'Chamadas públicas',
+      descricao: 'Publique as chamadas da prefeitura',
     },
   ];
 }

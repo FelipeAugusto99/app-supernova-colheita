@@ -85,13 +85,13 @@ const estilos = StyleSheet.create({
     minHeight: 48,
     fontFamily: fontes.regular,
     fontSize: 15,
+    // no navegador o campo ganha um contorno proprio ao focar; a borda da caixa ja indica o foco
+    ...(Platform.OS === 'web' ? { outlineStyle: 'none' } : null),
   },
   caixaMultilinha: { alignItems: 'stretch', paddingVertical: 10 },
   entradaMultilinha: {
     minHeight: 96,
     textAlignVertical: 'top',
-    // no navegador o campo de varias linhas ganha um contorno proprio ao focar
-    ...(Platform.OS === 'web' ? { outlineStyle: 'none' } : null),
   },
   erro: { marginTop: 4 },
 });

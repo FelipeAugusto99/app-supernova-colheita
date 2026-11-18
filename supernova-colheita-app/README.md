@@ -9,6 +9,7 @@ Global Solution 2026/2 (CitizenTech) - Mobile Application Development
 
 - Vídeo: LINK_DO_VIDEO
 - API Java (Azure): https://supernova-api-java-rm563982.azurewebsites.net/swagger-ui/index.html
+- API .NET (Azure): https://supernova-api-net-rm563982.azurewebsites.net/health
 
 ## O problema
 
@@ -20,12 +21,12 @@ O Supernova Colheita conecta os dois lados. O produtor publica a colheita dispon
 
 ## Funcionalidades por perfil
 
-| Perfil                                     | O que faz no app                                                                                                                                           |
-| ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Produtor**                               | Cadastra, edita e cancela ofertas; recebe pedidos e marca como confirmados e entregues; recebe notificações de pedidos novos                               |
-| **Comprador** (escola, restaurante, feira) | Vê as ofertas da região, monta o pedido no carrinho, acompanha e cancela pedidos, gera o **cardápio inteligente com IA** e transforma o cardápio em pedido |
-| **Escola** (comprador do tipo escola)      | Tudo do comprador e o painel da **meta PNAE** da escola                                                                                                    |
-| **Gestor** (prefeitura)                    | Vê todas as ofertas e pedidos e o painel da meta PNAE de todas as escolas do município                                                                     |
+| Perfil                                     | O que faz no app                                                                                                                                                                      |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Produtor**                               | Cadastra, edita e cancela ofertas; recebe pedidos e marca como confirmados e entregues; recebe notificações de pedidos novos                                                          |
+| **Comprador** (escola, restaurante, feira) | Vê as ofertas da região, monta o pedido no carrinho, acompanha e cancela pedidos, gera o **cardápio inteligente com IA** e transforma o cardápio em pedido; publica chamadas públicas |
+| **Escola** (comprador do tipo escola)      | Tudo do comprador e o painel da **meta PNAE** da escola                                                                                                                               |
+| **Gestor** (prefeitura)                    | Vê todas as ofertas e pedidos e o painel da meta PNAE de todas as escolas do município                                                                                                |
 
 ## Telas
 
@@ -43,6 +44,15 @@ O Supernova Colheita conecta os dois lados. O produtor publica a colheita dispon
 | Cardápio inteligente             | A IA (Google Gemini, via Spring AI na API) monta o cardápio da semana com as ofertas da região |
 | Sobre o App                      | Versão, **hash do commit de referência**, data do build, status da API e equipe                |
 
+## APIs consumidas
+
+| API                                     | O que o app usa                                                                               |
+| --------------------------------------- | --------------------------------------------------------------------------------------------- |
+| **API Java** (Spring Boot)              | Login e cadastro (JWT), produtos, ofertas, pedidos, notificações, meta PNAE e cardápio com IA |
+| **API .NET** (ASP.NET Core Minimal API) | Chamadas públicas (`/api/oportunidades`), clima (`/api/clima`) e status (`/health`)           |
+
+O login é feito uma única vez, na API Java. A API .NET valida o mesmo token JWT, então o app envia o mesmo token para as duas (`services/api.js` tem um cliente Axios para cada uma).
+
 ## Arquitetura do código
 
 ```
@@ -54,7 +64,7 @@ src/
   hooks/                  hooks do React Query por recurso (useOfertas, usePedidos, useCardapios...)
   navigation/             rotas públicas (login) e protegidas (só com usuário logado)
   screens/                telas
-  services/               acesso à API REST com Axios (uma função por endpoint)
+  services/               acesso às APIs REST com Axios (uma função por endpoint)
   theme/                  cores, fontes e espaçamentos
   utils/                  validações, formatadores, regras de status e mensagens de erro
 ```
@@ -70,6 +80,7 @@ src/
 - Axios
 - TanStack Query (React Query)
 - AsyncStorage
+- expo-location (clima pela localização do celular)
 - Fontes Poppins e ícones Material Community
 - ESLint e Prettier
 
@@ -79,7 +90,7 @@ src/
    ```bash
    npm install
    ```
-2. Copie o `.env.example` para `.env`. Ele já aponta para a API publicada no Azure; para usar a API rodando no computador, troque pelo IP dele na rede.
+2. Copie o `.env.example` para `.env`. Ele já aponta para as APIs publicadas no Azure; para usar as APIs rodando no computador, troque pelo IP dele na rede.
 3. Inicie:
    ```bash
    npx expo start
@@ -100,7 +111,7 @@ Para conferir o código: `npm run lint`.
 
 ## Publicação (Firebase App Distribution)
 
-O APK é gerado pelo EAS Build com o perfil `preview` do `eas.json`, que já aponta para a API do Azure:
+O APK é gerado pelo EAS Build com o perfil `preview` do `eas.json`, que já aponta para as APIs do Azure:
 
 ```bash
 eas build -p android --profile preview

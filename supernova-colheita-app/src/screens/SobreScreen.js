@@ -4,8 +4,8 @@ import { Image, StyleSheet, View } from 'react-native';
 
 import { Card, Etiqueta, LinhaInfo, Tela, Texto } from '../components';
 import { useTema } from '../context/TemaContext';
-import api from '../services/api';
-import { verificarApi } from '../services/sistemaService';
+import api, { apiNet } from '../services/api';
+import { verificarApi, verificarApiNet } from '../services/sistemaService';
 import { formatarData } from '../utils/formatadores';
 
 const logo = require('../../assets/images/logo.png');
@@ -15,10 +15,10 @@ const integrantes = [
   { nome: 'Kaique Mascarenhas dos Santos', rm: 'RM565802' },
 ];
 
-function StatusApi() {
+function StatusApi({ chave, verificar }) {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ['status-api'],
-    queryFn: verificarApi,
+    queryKey: ['status-api', chave],
+    queryFn: verificar,
     retry: false,
   });
 
@@ -75,7 +75,16 @@ export default function SobreScreen() {
               {api.defaults.baseURL}
             </Texto>
           </View>
-          <StatusApi />
+          <StatusApi chave="java" verificar={verificarApi} />
+        </View>
+        <View style={estilos.servico}>
+          <View style={estilos.servicoTexto}>
+            <Texto variante="destaque">API .NET</Texto>
+            <Texto variante="legenda" numberOfLines={1}>
+              {apiNet.defaults.baseURL}
+            </Texto>
+          </View>
+          <StatusApi chave="net" verificar={verificarApiNet} />
         </View>
       </Card>
 

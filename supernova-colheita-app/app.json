@@ -24,6 +24,16 @@
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": ["expo-status-bar", "expo-font", "expo-splash-screen"]
+    "plugins": [
+      "expo-status-bar",
+      "expo-font",
+      "expo-splash-screen",
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "O Supernova Colheita usa a sua localização para mostrar o clima da sua lavoura."
+        }
+      ]
+    ]
   }
 }

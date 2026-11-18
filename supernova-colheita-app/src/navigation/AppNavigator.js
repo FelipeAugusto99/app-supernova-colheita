@@ -10,6 +10,7 @@ import CardapioDetalheScreen from '../screens/CardapioDetalheScreen';
 import CardapioFormScreen from '../screens/CardapioFormScreen';
 import CardapiosScreen from '../screens/CardapiosScreen';
 import CarrinhoScreen from '../screens/CarrinhoScreen';
+import ClimaScreen from '../screens/ClimaScreen';
 import HomeScreen from '../screens/HomeScreen';
 import LoginScreen from '../screens/LoginScreen';
 import MetaPnaeScreen from '../screens/MetaPnaeScreen';
@@ -18,6 +19,9 @@ import NotificacoesScreen from '../screens/NotificacoesScreen';
 import OfertaDetalheScreen from '../screens/OfertaDetalheScreen';
 import OfertaFormScreen from '../screens/OfertaFormScreen';
 import OfertasScreen from '../screens/OfertasScreen';
+import OportunidadeDetalheScreen from '../screens/OportunidadeDetalheScreen';
+import OportunidadeFormScreen from '../screens/OportunidadeFormScreen';
+import OportunidadesScreen from '../screens/OportunidadesScreen';
 import PedidoDetalheScreen from '../screens/PedidoDetalheScreen';
 import PedidosScreen from '../screens/PedidosScreen';
 import SobreScreen from '../screens/SobreScreen';
@@ -101,6 +105,22 @@ function RotasAutenticadas() {
         component={NotificacoesScreen}
         options={{ title: 'Notificações' }}
       />
+      <Stack.Screen
+        name="Oportunidades"
+        component={OportunidadesScreen}
+        options={{ title: 'Chamadas públicas' }}
+      />
+      <Stack.Screen
+        name="OportunidadeDetalhe"
+        component={OportunidadeDetalheScreen}
+        options={{ title: 'Chamada pública' }}
+      />
+      <Stack.Screen
+        name="OportunidadeForm"
+        component={OportunidadeFormScreen}
+        options={{ title: 'Nova chamada pública' }}
+      />
+      <Stack.Screen name="Clima" component={ClimaScreen} options={{ title: 'Clima da lavoura' }} />
       <Stack.Screen name="Sobre" component={SobreScreen} options={{ title: 'Sobre o App' }} />
       <Stack.Screen
         name="MetaPnae"

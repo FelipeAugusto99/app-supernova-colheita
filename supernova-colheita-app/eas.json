@@ -10,7 +10,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://supernova-api-java-rm563982.azurewebsites.net"
+        "EXPO_PUBLIC_API_URL": "https://supernova-api-java-rm563982.azurewebsites.net",
+        "EXPO_PUBLIC_API_NET_URL": "https://supernova-api-net-rm563982.azurewebsites.net"
       }
     },
     "production": {
@@ -18,7 +19,8 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_API_URL": "https://supernova-api-java-rm563982.azurewebsites.net"
+        "EXPO_PUBLIC_API_URL": "https://supernova-api-java-rm563982.azurewebsites.net",
+        "EXPO_PUBLIC_API_NET_URL": "https://supernova-api-net-rm563982.azurewebsites.net"
       }
     }
   }
